@@ -1,0 +1,51 @@
+{% extends "catalogue/base.html" %}
+
+{% block title %}Liste des livres{% endblock %}
+
+{% block content %}
+<h2>{{ titre_page }}</h2>
+
+<form method="get" role="search">
+    <label for="recherche">Rechercher un titre</label>
+    <input id="recherche" type="search" name="q" value="{{ recherche }}" placeholder="Ex. Le Petit Prince">
+    <button type="submit">Rechercher</button>
+    {% if recherche %}<a href="{% url 'catalogue:livre_list' %}">Effacer</a>{% endif %}
+</form>
+<p><a href="{% url 'catalogue:livre_create' %}">Ajouter un livre</a></p>
+
+{% if livres %}
+<table>
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Date de publication</th>
+            <th>Prix (TND)</th>
+            <th>Details</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for livre in livres %}
+        <tr>
+            <td>{{ livre.title }}</td>
+            <td>{{ livre.author }}</td>
+            <td>{{ livre.publication_date|date:"d/m/Y" }}</td>
+            <td>{{ livre.price }}</td>
+            <td>
+                <a href="{% url 'catalogue:livre_detail' livre.pk %}">
+                    Consulter
+                </a>
+            </td>
+            <td>
+                <a href="{% url 'catalogue:livre_update' livre.pk %}">Modifier</a> |
+                <a href="{% url 'catalogue:livre_delete' livre.pk %}">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>{% if recherche %}Aucun livre ne correspond à « {{ recherche }} » (parmi les livres de moins de 50 TND).{% else %}Aucun livre de moins de 50 TND n'est enregistré.{% endif %}</p>
+{% endif %}
+{% endblock %}

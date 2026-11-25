@@ -1,0 +1,13 @@
+{% extends "catalogue/base.html" %}
+
+{% block title %}{{ titre_page }}{% endblock %}
+
+{% block content %}
+<h2>{{ titre_page }}</h2>
+<form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+    <a href="{% url 'catalogue:auteur_list' %}">Annuler</a>
+</form>
+{% endblock %}

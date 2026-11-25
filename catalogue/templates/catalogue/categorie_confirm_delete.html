@@ -1,0 +1,16 @@
+{% extends "catalogue/base.html" %}
+
+{% block title %}Supprimer une catégorie{% endblock %}
+
+{% block content %}
+<h2>Confirmer la suppression</h2>
+<p>Voulez-vous supprimer la catégorie <strong>{{ categorie.name }}</strong> ?</p>
+{% if nombre_livres %}
+<p>Elle est utilisée par {{ nombre_livres }} livre(s). La suppression sera refusée tant que ces livres y seront associés.</p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmer la suppression</button>
+    <a href="{% url 'catalogue:categorie_list' %}">Annuler</a>
+</form>
+{% endblock %}
